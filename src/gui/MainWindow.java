@@ -1,6 +1,9 @@
 package gui;
 
+import javax.swing.filechooser.FileFilter;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -32,11 +35,17 @@ public class MainWindow extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
+        saveMenuItem = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        quitMenuItem = new javax.swing.JMenuItem();
         menuEdit = new javax.swing.JMenu();
+        effect1MenuItem = new javax.swing.JCheckBoxMenuItem();
         dialogMenu = new javax.swing.JMenu();
         cuadroMenuItem = new javax.swing.JMenuItem();
         cuadro2MenuItem = new javax.swing.JMenuItem();
         cuadro3MenuItem = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
+        aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,9 +59,26 @@ public class MainWindow extends javax.swing.JFrame {
         });
         menuFile.add(openMenuItem);
 
+        saveMenuItem.setText("Save");
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMenuItemActionPerformed(evt);
+            }
+        });
+        menuFile.add(saveMenuItem);
+        menuFile.add(jSeparator1);
+
+        quitMenuItem.setText("Quit");
+        menuFile.add(quitMenuItem);
+
         jMenuBar1.add(menuFile);
 
-        menuEdit.setText("Edit");
+        menuEdit.setText("Effects");
+
+        effect1MenuItem.setText("Threshold");
+        effect1MenuItem.setEnabled(false);
+        menuEdit.add(effect1MenuItem);
+
         jMenuBar1.add(menuEdit);
 
         dialogMenu.setText("Dialog Change");
@@ -83,6 +109,13 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenuBar1.add(dialogMenu);
 
+        jMenu1.setText("Help");
+
+        aboutMenuItem.setText("About");
+        jMenu1.add(aboutMenuItem);
+
+        jMenuBar1.add(jMenu1);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -100,12 +133,43 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
-        System.out.println("Boton abrir");
+        JFileChooser fc = new JFileChooser(System.getProperty("user.home"));
+        FileFilter filter = new FileNameExtensionFilter(
+                "JPEG [*.jpg, *.jpeg, *.jpe, *.jfif]", 
+                "jpg", 
+                "jpeg", 
+                "jpe",
+                "jfif");
+        fc.addChoosableFileFilter(filter);
+        filter = new FileNameExtensionFilter(
+                "Mapa de bits [*.bmp, *.dib]", 
+                "bmp",
+                "dib");
+        fc.addChoosableFileFilter(filter);
+        filter = new FileNameExtensionFilter(
+                "GIF [*.gif]", 
+                "gif");
+        fc.addChoosableFileFilter(filter);
+        filter = new FileNameExtensionFilter(
+                "TIFF [*.tif, *.tiff]", 
+                "tif", 
+                "tiff");
+        fc.addChoosableFileFilter(filter);
+        filter = new FileNameExtensionFilter(
+                "PNG [*.png]", 
+                "png");
+        fc.addChoosableFileFilter(filter);
+        
+        int res = fc.showOpenDialog(null);
+        
+        if(res == JFileChooser.APPROVE_OPTION) {
+            System.out.println("Fichero seleccionado : " + fc.getSelectedFile());
+            
+        }
     }//GEN-LAST:event_openMenuItemActionPerformed
 
     private void cuadroMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadroMenuItemActionPerformed
         JOptionPane.showMessageDialog(rootPane, "Esto es un mensaje", "Titulo", JOptionPane.ERROR_MESSAGE);
-
     }//GEN-LAST:event_cuadroMenuItemActionPerformed
 
     private void cuadro2MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadro2MenuItemActionPerformed
@@ -114,12 +178,23 @@ public class MainWindow extends javax.swing.JFrame {
         if (res == JOptionPane.YES_OPTION) {
             System.out.println("terminar la opcion");
         }
-        
     }//GEN-LAST:event_cuadro2MenuItemActionPerformed
 
     private void cuadro3MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadro3MenuItemActionPerformed
-        String res = (String) JOptionPane.showInputDialog(rootPane, "Intrdoucir nombre dle dragon", "Nombre dragon0",JOptionPane.PLAIN_MESSAGE,null,null,"Marc");
+        Object[] opciones = {"Opcion 1", "Opcion 2", "Opcion 3"};
+        
+        String res = (String) JOptionPane.showInputDialog(rootPane, 
+                "Intrdoucir nombre del dragon", 
+                "Nombre dragon0",
+                JOptionPane.PLAIN_MESSAGE,
+                null,
+                opciones,
+                "Marc");
     }//GEN-LAST:event_cuadro3MenuItemActionPerformed
+
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+        
+    }//GEN-LAST:event_saveMenuItemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -157,13 +232,19 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JMenuItem cuadro2MenuItem;
     private javax.swing.JMenuItem cuadro3MenuItem;
     private javax.swing.JMenuItem cuadroMenuItem;
     private javax.swing.JMenu dialogMenu;
+    private javax.swing.JCheckBoxMenuItem effect1MenuItem;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenu menuEdit;
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenuItem openMenuItem;
+    private javax.swing.JMenuItem quitMenuItem;
+    private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables
 }
