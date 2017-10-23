@@ -1,8 +1,30 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.stage.FileChooser;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /*
@@ -32,14 +54,17 @@ public class MainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        authorTag = new javax.swing.JLabel();
+        imagePanel = new gui.ImagePanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
+        closeMenuItem = new javax.swing.JMenuItem();
         saveMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         quitMenuItem = new javax.swing.JMenuItem();
         menuEdit = new javax.swing.JMenu();
-        effect1MenuItem = new javax.swing.JCheckBoxMenuItem();
+        threshold = new javax.swing.JMenuItem();
         dialogMenu = new javax.swing.JMenu();
         cuadroMenuItem = new javax.swing.JMenuItem();
         cuadro2MenuItem = new javax.swing.JMenuItem();
@@ -48,9 +73,26 @@ public class MainWindow extends javax.swing.JFrame {
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Image Editor");
+
+        authorTag.setFont(new java.awt.Font("Cantarell", 1, 11)); // NOI18N
+        authorTag.setText("David Medina & Geraldo Rodrígues");
+
+        javax.swing.GroupLayout imagePanelLayout = new javax.swing.GroupLayout(imagePanel);
+        imagePanel.setLayout(imagePanelLayout);
+        imagePanelLayout.setHorizontalGroup(
+            imagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        imagePanelLayout.setVerticalGroup(
+            imagePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 455, Short.MAX_VALUE)
+        );
 
         menuFile.setText("File");
 
+        openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        openMenuItem.setMnemonic('O');
         openMenuItem.setText("Open");
         openMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -59,7 +101,21 @@ public class MainWindow extends javax.swing.JFrame {
         });
         menuFile.add(openMenuItem);
 
+        closeMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        closeMenuItem.setMnemonic('C');
+        closeMenuItem.setText("Close");
+        closeMenuItem.setEnabled(false);
+        closeMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeMenuItemActionPerformed(evt);
+            }
+        });
+        menuFile.add(closeMenuItem);
+
+        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        saveMenuItem.setMnemonic('S');
         saveMenuItem.setText("Save");
+        saveMenuItem.setEnabled(false);
         saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveMenuItemActionPerformed(evt);
@@ -68,16 +124,30 @@ public class MainWindow extends javax.swing.JFrame {
         menuFile.add(saveMenuItem);
         menuFile.add(jSeparator1);
 
+        quitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        quitMenuItem.setMnemonic('Q');
         quitMenuItem.setText("Quit");
+        quitMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitMenuItemActionPerformed(evt);
+            }
+        });
         menuFile.add(quitMenuItem);
 
         jMenuBar1.add(menuFile);
 
         menuEdit.setText("Effects");
 
-        effect1MenuItem.setText("Threshold");
-        effect1MenuItem.setEnabled(false);
-        menuEdit.add(effect1MenuItem);
+        threshold.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
+        threshold.setMnemonic('T');
+        threshold.setText("Threshold...");
+        threshold.setEnabled(false);
+        threshold.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                thresholdActionPerformed(evt);
+            }
+        });
+        menuEdit.add(threshold);
 
         jMenuBar1.add(menuEdit);
 
@@ -111,7 +181,14 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenu1.setText("Help");
 
-        aboutMenuItem.setText("About");
+        aboutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        aboutMenuItem.setMnemonic('A');
+        aboutMenuItem.setText("About...");
+        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                aboutMenuItemActionPerformed(evt);
+            }
+        });
         jMenu1.add(aboutMenuItem);
 
         jMenuBar1.add(jMenu1);
@@ -122,49 +199,39 @@ public class MainWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(416, Short.MAX_VALUE)
+                .addComponent(authorTag)
+                .addContainerGap())
+            .addComponent(imagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 279, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(imagePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(authorTag))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
         JFileChooser fc = new JFileChooser(System.getProperty("user.home"));
-        FileFilter filter = new FileNameExtensionFilter(
-                "JPEG [*.jpg, *.jpeg, *.jpe, *.jfif]", 
-                "jpg", 
-                "jpeg", 
-                "jpe",
-                "jfif");
-        fc.addChoosableFileFilter(filter);
-        filter = new FileNameExtensionFilter(
-                "Mapa de bits [*.bmp, *.dib]", 
-                "bmp",
-                "dib");
-        fc.addChoosableFileFilter(filter);
-        filter = new FileNameExtensionFilter(
-                "GIF [*.gif]", 
-                "gif");
-        fc.addChoosableFileFilter(filter);
-        filter = new FileNameExtensionFilter(
-                "TIFF [*.tif, *.tiff]", 
-                "tif", 
-                "tiff");
-        fc.addChoosableFileFilter(filter);
-        filter = new FileNameExtensionFilter(
-                "PNG [*.png]", 
-                "png");
-        fc.addChoosableFileFilter(filter);
+        
+        setFilter(fc);
         
         int res = fc.showOpenDialog(null);
-        
         if(res == JFileChooser.APPROVE_OPTION) {
             System.out.println("Fichero seleccionado : " + fc.getSelectedFile());
-            
+            imagePanel.setPath(fc.getSelectedFile().getAbsolutePath());
+            if(imagePanel.setImage() == imagePanel.SUCCESS) {
+                imagePanel.paintComponent(imagePanel.getGraphics());
+                saveMenuItem.setEnabled(true);
+                closeMenuItem.setEnabled(true);
+                threshold.setEnabled(true);
+            }
         }
     }//GEN-LAST:event_openMenuItemActionPerformed
 
@@ -193,9 +260,121 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_cuadro3MenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+        JFileChooser fc = new JFileChooser(System.getProperty("user.home"));
         
+        setFilter(fc);
+        
+        int res = fc.showSaveDialog(null);
+        
+        if(res == JFileChooser.APPROVE_OPTION) {
+            String path = fc.getSelectedFile().toString() + ".";
+            String extension = parseExtension(fc);
+            path += extension;
+            
+            System.out.println("Fichero seleccionado : " + path);
+            
+            
+            BufferedImage img = imagePanel.getImage();
+            
+            BufferedImage out = new BufferedImage(img.getWidth(),
+			img.getHeight(), BufferedImage.TYPE_INT_RGB);
+            out.createGraphics().drawImage(img, 0, 0, Color.WHITE, null);
+            
+            try {
+                ImageIO.write(out, extension, new File(path));
+            } catch (IOException ex) {
+                Logger.getLogger(
+                        MainWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
+    private void quitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitMenuItemActionPerformed
+        dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    }//GEN-LAST:event_quitMenuItemActionPerformed
+
+    private void thresholdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thresholdActionPerformed
+        JSlider jSlider = new JSlider();
+        jSlider.setMajorTickSpacing(20);
+        jSlider.setPaintTicks(true);
+        jSlider.setPaintLabels(true);
+        
+        JPanel jPanel = new JPanel(new GridLayout(0, 1));
+        jPanel.add(new JLabel("Select a value : "));
+        
+        JPanel jPanel1 = new JPanel(new FlowLayout(FlowLayout.TRAILING, 15, 5));
+        jPanel1.add(jSlider);
+        JLabel jLabel = new JLabel(Integer.toString(jSlider.getValue()));
+        jLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        jPanel1.add(jLabel);
+        
+        jPanel.add(jPanel.add(jPanel1));
+        
+        jSlider.addChangeListener((ChangeEvent e) -> {
+            jLabel.setText(Integer.toString(jSlider.getValue()));
+        });
+        
+        int res = JOptionPane.showConfirmDialog(rootPane, 
+                new JPanel[] {jPanel, jPanel1},
+                "Select a Threshold", 
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
+        
+        if(res == JOptionPane.OK_OPTION) {
+            System.out.println("El umbral seleccionado es : " + jSlider.getValue());
+
+            BufferedImage img = imagePanel.umbralizar(
+                    imagePanel.getImage(), 
+                    jSlider.getValue());
+            imagePanel.setImage(img);
+            
+            imagePanel.paintComponent(imagePanel.getGraphics());
+        }
+    }//GEN-LAST:event_thresholdActionPerformed
+
+    private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
+        JOptionPane.showMessageDialog(
+                    null, 
+                    "This program was developed by David Medina & Geraldo Gonzáles", 
+                    "About...", 
+                    JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_aboutMenuItemActionPerformed
+
+    private void closeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeMenuItemActionPerformed
+        imagePanel.resetComponent(imagePanel.getGraphics());
+        saveMenuItem.setEnabled(false);
+        closeMenuItem.setEnabled(false);
+        threshold.setEnabled(false);
+    }//GEN-LAST:event_closeMenuItemActionPerformed
+
+    
+    private void setFilter(JFileChooser fc) {
+        FileFilter filter = new FileNameExtensionFilter(
+                "JPEG [*.jpg, *.jpeg, *.jpe, *.jfif]", 
+                "jpg", 
+                "jpeg", 
+                "jpe",
+                "jfif");
+        fc.addChoosableFileFilter(filter);
+        filter = new FileNameExtensionFilter(
+                "Mapa de bits [*.bmp, *.dib]", 
+                "bmp",
+                "dib");
+        fc.addChoosableFileFilter(filter);
+        filter = new FileNameExtensionFilter(
+                "GIF [*.gif]", 
+                "gif");
+        fc.addChoosableFileFilter(filter);
+        filter = new FileNameExtensionFilter(
+                "TIFF [*.tif, *.tiff]", 
+                "tif", 
+                "tiff");
+        fc.addChoosableFileFilter(filter);
+        filter = new FileNameExtensionFilter(
+                "PNG [*.png]", 
+                "png");
+        fc.addChoosableFileFilter(filter);
+    }
     /**
      * @param args the command line arguments
      */
@@ -233,11 +412,13 @@ public class MainWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
+    private javax.swing.JLabel authorTag;
+    private javax.swing.JMenuItem closeMenuItem;
     private javax.swing.JMenuItem cuadro2MenuItem;
     private javax.swing.JMenuItem cuadro3MenuItem;
     private javax.swing.JMenuItem cuadroMenuItem;
     private javax.swing.JMenu dialogMenu;
-    private javax.swing.JCheckBoxMenuItem effect1MenuItem;
+    private gui.ImagePanel imagePanel;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
@@ -246,5 +427,28 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem quitMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
+    private javax.swing.JMenuItem threshold;
     // End of variables declaration//GEN-END:variables
+
+    private String parseExtension(JFileChooser fc) {
+        String extension = fc.getFileFilter().getDescription();
+           switch(extension) {
+                case "JPEG [*.jpg, *.jpeg, *.jpe, *.jfif]":
+                    extension = "jpg";
+                    break;
+                case "Mapa de bits [*.bmp, *.dib]":
+                    extension = "bmp";
+                    break;
+                case "GIF [*.gif]":
+                    extension = "gif";
+                    break;
+                case "TIFF [*.tif, *.tiff]":
+                    extension = "tif";
+                    break;
+                default:
+                    extension = "png";
+                    break;
+            }
+        return extension;
+    }
 }
