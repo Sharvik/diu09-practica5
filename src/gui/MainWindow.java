@@ -375,6 +375,30 @@ public class MainWindow extends javax.swing.JFrame {
                 "png");
         fc.addChoosableFileFilter(filter);
     }
+    
+    private String parseExtension(JFileChooser fc) {
+        String extension = fc.getFileFilter().getDescription();
+           switch(extension) {
+                case "JPEG [*.jpg, *.jpeg, *.jpe, *.jfif]":
+                    extension = "jpg";
+                    break;
+                case "Mapa de bits [*.bmp, *.dib]":
+                    extension = "bmp";
+                    break;
+                case "GIF [*.gif]":
+                    extension = "gif";
+                    break;
+                case "TIFF [*.tif, *.tiff]":
+                    extension = "tif";
+                    break;
+                default:
+                    extension = "png";
+                    break;
+            }
+        return extension;
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -429,26 +453,4 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JMenuItem threshold;
     // End of variables declaration//GEN-END:variables
-
-    private String parseExtension(JFileChooser fc) {
-        String extension = fc.getFileFilter().getDescription();
-           switch(extension) {
-                case "JPEG [*.jpg, *.jpeg, *.jpe, *.jfif]":
-                    extension = "jpg";
-                    break;
-                case "Mapa de bits [*.bmp, *.dib]":
-                    extension = "bmp";
-                    break;
-                case "GIF [*.gif]":
-                    extension = "gif";
-                    break;
-                case "TIFF [*.tif, *.tiff]":
-                    extension = "tif";
-                    break;
-                default:
-                    extension = "png";
-                    break;
-            }
-        return extension;
-    }
 }
