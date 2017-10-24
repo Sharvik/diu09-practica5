@@ -20,19 +20,22 @@ public class ImagePanel extends JPanel {
     private BufferedImage img;
     private String path;
     private int threshold;
+    
     public static final int SUCCESS = 1;
     public static final int FAILURE = 0;
-
-    public int getThreshold() {
-        return threshold;
-    }
-
-    public void setThreshold(int threshold) {
-        this.threshold = threshold;
-    }
     
-    public void setImage(BufferedImage img) {
+    public int setImage(BufferedImage img) {
+        if(img == null) {
+            JOptionPane.showConfirmDialog(
+                    null, 
+                    "Please insert a path", 
+                    "Image selection error", 
+                    JOptionPane.ERROR_MESSAGE);
+            return FAILURE;
+        }
+        
         this.img = img;
+        return SUCCESS;
     }
     
     public int setImage() {
@@ -63,6 +66,14 @@ public class ImagePanel extends JPanel {
     
     public BufferedImage getImage() {
         return img;
+    }
+    
+    public int getThreshold() {
+        return threshold;
+    }
+
+    public void setThreshold(int threshold) {
+        this.threshold = threshold;
     }
 
     public String getPath() {

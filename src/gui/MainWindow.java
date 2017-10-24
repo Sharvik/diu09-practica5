@@ -1,22 +1,16 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.stage.FileChooser;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -24,7 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /*
@@ -63,20 +56,16 @@ public class MainWindow extends javax.swing.JFrame {
         saveMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         quitMenuItem = new javax.swing.JMenuItem();
-        menuEdit = new javax.swing.JMenu();
+        effectMenu = new javax.swing.JMenu();
         threshold = new javax.swing.JMenuItem();
-        dialogMenu = new javax.swing.JMenu();
-        cuadroMenuItem = new javax.swing.JMenuItem();
-        cuadro2MenuItem = new javax.swing.JMenuItem();
-        cuadro3MenuItem = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Image Editor");
 
         authorTag.setFont(new java.awt.Font("Cantarell", 1, 11)); // NOI18N
-        authorTag.setText("David Medina & Geraldo Rodrígues");
+        authorTag.setText("David Medina & Geraldo Rodrigues");
 
         javax.swing.GroupLayout imagePanelLayout = new javax.swing.GroupLayout(imagePanel);
         imagePanel.setLayout(imagePanelLayout);
@@ -136,7 +125,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         jMenuBar1.add(menuFile);
 
-        menuEdit.setText("Effects");
+        effectMenu.setText("Effects");
 
         threshold.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
         threshold.setMnemonic('T');
@@ -147,39 +136,11 @@ public class MainWindow extends javax.swing.JFrame {
                 thresholdActionPerformed(evt);
             }
         });
-        menuEdit.add(threshold);
+        effectMenu.add(threshold);
 
-        jMenuBar1.add(menuEdit);
+        jMenuBar1.add(effectMenu);
 
-        dialogMenu.setText("Dialog Change");
-
-        cuadroMenuItem.setText("cuadro");
-        cuadroMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cuadroMenuItemActionPerformed(evt);
-            }
-        });
-        dialogMenu.add(cuadroMenuItem);
-
-        cuadro2MenuItem.setText("cuadro2");
-        cuadro2MenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cuadro2MenuItemActionPerformed(evt);
-            }
-        });
-        dialogMenu.add(cuadro2MenuItem);
-
-        cuadro3MenuItem.setText("cuadro3");
-        cuadro3MenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cuadro3MenuItemActionPerformed(evt);
-            }
-        });
-        dialogMenu.add(cuadro3MenuItem);
-
-        jMenuBar1.add(dialogMenu);
-
-        jMenu1.setText("Help");
+        helpMenu.setText("Help");
 
         aboutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
         aboutMenuItem.setMnemonic('A');
@@ -189,9 +150,9 @@ public class MainWindow extends javax.swing.JFrame {
                 aboutMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(aboutMenuItem);
+        helpMenu.add(aboutMenuItem);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(helpMenu);
 
         setJMenuBar(jMenuBar1);
 
@@ -223,8 +184,8 @@ public class MainWindow extends javax.swing.JFrame {
         setFilter(fc);
         
         int res = fc.showOpenDialog(null);
+        
         if(res == JFileChooser.APPROVE_OPTION) {
-            System.out.println("Fichero seleccionado : " + fc.getSelectedFile());
             imagePanel.setPath(fc.getSelectedFile().getAbsolutePath());
             if(imagePanel.setImage() == imagePanel.SUCCESS) {
                 imagePanel.paintComponent(imagePanel.getGraphics());
@@ -234,30 +195,6 @@ public class MainWindow extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_openMenuItemActionPerformed
-
-    private void cuadroMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadroMenuItemActionPerformed
-        JOptionPane.showMessageDialog(rootPane, "Esto es un mensaje", "Titulo", JOptionPane.ERROR_MESSAGE);
-    }//GEN-LAST:event_cuadroMenuItemActionPerformed
-
-    private void cuadro2MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadro2MenuItemActionPerformed
-        int res = JOptionPane.showConfirmDialog(rootPane, "¿estas seguro?", "Salir", JOptionPane.YES_NO_OPTION);
-        
-        if (res == JOptionPane.YES_OPTION) {
-            System.out.println("terminar la opcion");
-        }
-    }//GEN-LAST:event_cuadro2MenuItemActionPerformed
-
-    private void cuadro3MenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuadro3MenuItemActionPerformed
-        Object[] opciones = {"Opcion 1", "Opcion 2", "Opcion 3"};
-        
-        String res = (String) JOptionPane.showInputDialog(rootPane, 
-                "Intrdoucir nombre del dragon", 
-                "Nombre dragon0",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                opciones,
-                "Marc");
-    }//GEN-LAST:event_cuadro3MenuItemActionPerformed
 
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
         JFileChooser fc = new JFileChooser(System.getProperty("user.home"));
@@ -270,9 +207,6 @@ public class MainWindow extends javax.swing.JFrame {
             String path = fc.getSelectedFile().toString() + ".";
             String extension = parseExtension(fc);
             path += extension;
-            
-            System.out.println("Fichero seleccionado : " + path);
-            
             
             BufferedImage img = imagePanel.getImage();
             
@@ -295,38 +229,15 @@ public class MainWindow extends javax.swing.JFrame {
 
     private void thresholdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thresholdActionPerformed
         JSlider jSlider = new JSlider();
-        jSlider.setMajorTickSpacing(20);
-        jSlider.setPaintTicks(true);
-        jSlider.setPaintLabels(true);
         
-        JPanel jPanel = new JPanel(new GridLayout(0, 1));
-        jPanel.add(new JLabel("Select a value : "));
-        
-        JPanel jPanel1 = new JPanel(new FlowLayout(FlowLayout.TRAILING, 15, 5));
-        jPanel1.add(jSlider);
-        JLabel jLabel = new JLabel(Integer.toString(jSlider.getValue()));
-        jLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
-        jPanel1.add(jLabel);
-        
-        jPanel.add(jPanel.add(jPanel1));
-        
-        jSlider.addChangeListener((ChangeEvent e) -> {
-            jLabel.setText(Integer.toString(jSlider.getValue()));
-        });
-        
-        int res = JOptionPane.showConfirmDialog(rootPane, 
-                new JPanel[] {jPanel, jPanel1},
-                "Select a Threshold", 
-                JOptionPane.OK_CANCEL_OPTION,
-                JOptionPane.PLAIN_MESSAGE);
-        
-        if(res == JOptionPane.OK_OPTION) {
-            System.out.println("El umbral seleccionado es : " + jSlider.getValue());
+        if(generateThresholdWindow(jSlider) == JOptionPane.OK_OPTION) {
 
             BufferedImage img = imagePanel.umbralizar(
                     imagePanel.getImage(), 
                     jSlider.getValue());
-            imagePanel.setImage(img);
+            
+            if(imagePanel.setImage(img) == imagePanel.FAILURE) 
+                System.out.println("An error occured during the thresholding process");
             
             imagePanel.paintComponent(imagePanel.getGraphics());
         }
@@ -335,7 +246,8 @@ public class MainWindow extends javax.swing.JFrame {
     private void aboutMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutMenuItemActionPerformed
         JOptionPane.showMessageDialog(
                     null, 
-                    "This program was developed by David Medina & Geraldo Gonzáles", 
+                    "This program uses a thresholding technique to make your pics more fancy"
+                    + "\nDeveloped by David Medina & Geraldo Rodrigues", 
                     "About...", 
                     JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_aboutMenuItemActionPerformed
@@ -399,6 +311,37 @@ public class MainWindow extends javax.swing.JFrame {
     }
     
     
+    private int generateThresholdWindow(JSlider jSlider) {
+        jSlider.setMajorTickSpacing(51);
+        jSlider.setPaintTicks(true);
+        jSlider.setPaintLabels(true);
+        jSlider.setMaximum(255);
+        
+        JPanel jPanel = new JPanel(new GridLayout(0, 1));
+        jPanel.add(new JLabel("Select a value : "));
+        
+        JPanel jPanel1 = new JPanel(new FlowLayout(FlowLayout.TRAILING, 15, 5));
+        jPanel1.add(jSlider);
+        JLabel jLabel = new JLabel(Integer.toString(jSlider.getValue()));
+        jLabel.setFont(new Font("SansSerif", Font.BOLD, 16));
+        jPanel1.add(jLabel);
+        
+        jPanel.add(jPanel.add(jPanel1));
+        
+        jSlider.addChangeListener((ChangeEvent e) -> {
+            jLabel.setText(Integer.toString(jSlider.getValue()));
+        });
+        
+        int res = JOptionPane.showConfirmDialog(rootPane, 
+                new JPanel[] {jPanel, jPanel1},
+                "Select a Threshold", 
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE);
+        
+        return res;
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -438,15 +381,11 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JLabel authorTag;
     private javax.swing.JMenuItem closeMenuItem;
-    private javax.swing.JMenuItem cuadro2MenuItem;
-    private javax.swing.JMenuItem cuadro3MenuItem;
-    private javax.swing.JMenuItem cuadroMenuItem;
-    private javax.swing.JMenu dialogMenu;
+    private javax.swing.JMenu effectMenu;
+    private javax.swing.JMenu helpMenu;
     private gui.ImagePanel imagePanel;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JMenu menuEdit;
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem quitMenuItem;

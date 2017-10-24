@@ -71,7 +71,7 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="menuEdit">
+        <Menu class="javax.swing.JMenu" name="effectMenu">
           <Properties>
             <Property name="text" type="java.lang.String" value="Effects"/>
           </Properties>
@@ -93,38 +93,7 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="dialogMenu">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Dialog Change"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="cuadroMenuItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="cuadro"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cuadroMenuItemActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="cuadro2MenuItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="cuadro2"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cuadro2MenuItemActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="cuadro3MenuItem">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="cuadro3"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cuadro3MenuItemActionPerformed"/>
-              </Events>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="helpMenu">
           <Properties>
             <Property name="text" type="java.lang.String" value="Help"/>
           </Properties>
@@ -196,7 +165,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Cantarell" size="11" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="David Medina &amp; Geraldo Rodr&#xed;gues"/>
+        <Property name="text" type="java.lang.String" value="David Medina &amp; Geraldo Rodrigues"/>
       </Properties>
     </Component>
     <Container class="gui.ImagePanel" name="imagePanel">
